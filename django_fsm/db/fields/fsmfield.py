@@ -243,6 +243,13 @@ class FSMField(models.Field):
     def get_internal_type(self):
         return 'CharField'
 
+    def deconstruct(self):
+        name, path, args, kwargs = super(FSMField, self).deconstruct()
+        if 'choices' in kwargs:
+            del kwargs['choices']
+        return name, path, args, kwargs
+
+
 
 class FSMKeyFieldDescriptor(object):
     def __init__(self, field):
