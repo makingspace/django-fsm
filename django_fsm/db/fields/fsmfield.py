@@ -230,7 +230,10 @@ class FSMField(models.Field):
 
     def __init__(self, *args, **kwargs):
         self.protected = kwargs.pop('protected', False)
-        kwargs.setdefault('max_length', 50)
+        if kwargs.get('max_length') != -1:
+            kwargs.setdefault('max_length', 50)
+        else:
+            kwargs.pop('max_length', None)
         super(FSMField, self).__init__(*args, **kwargs)
         self.transitions = []
 
@@ -305,5 +308,5 @@ class FSMIntegerField(models.IntegerField, FSMField):
     """
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('db_index', True)
-        kwargs.pop('max_length', None)
+        kwargs['max_length'] = -1
         super(FSMIntegerField, self).__init__(*args, **kwargs)
