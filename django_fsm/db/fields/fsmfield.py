@@ -305,4 +305,5 @@ class FSMIntegerField(models.IntegerField, FSMField):
     """
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('db_index', True)
+        kwargs.pop('max_length', None)
         super(FSMIntegerField, self).__init__(*args, **kwargs)
